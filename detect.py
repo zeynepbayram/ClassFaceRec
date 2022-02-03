@@ -4,13 +4,13 @@ import numpy as np
 import face_recognition
 from simple_facerec import SimpleFacerec
 
-class FaceDetect:
+class FaceVerification:
     def __init__(self, model = "res10_300x300_ssd_iter_140000.caffemodel", path="deploy.prototxt.txt"):
         self.model = model
         self.path = path
         self.ssd_face_model = cv.dnn.readNetFromCaffe(path, model)
     
-    def get_face_ssdnet(self, frame, image_size = 224):
+    def get_face_ssdnet(self, frame, image_size = 160):
         (h, w) = frame.shape[:2]
         resized_image = cv.resize(frame, (300, 300))
         blob = cv.dnn.blobFromImage(resized_image, 1.0, (300, 300), (104.0, 177.0, 123.0))
@@ -21,13 +21,14 @@ class FaceDetect:
         (startX, startY, endX, endY) = box.astype("int32")
         cv.rectangle(frame, (startX, startY), (endX, endY), (150, 0, 255), 3)
         return frame
+
     def recog_face(self, frame):
-        face = self.get_face_ssdnet(frame)
+        pass
         
 
 webcam = cv.VideoCapture(0)
 count = 1
-face_detector = FaceDetect()
+face_detector = FaceVerification()
 while True:
     (_, im) = webcam.read()
     x = face_detector.get_face_ssdnet(im)
