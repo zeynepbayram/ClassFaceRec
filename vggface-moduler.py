@@ -13,16 +13,17 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-epsilon = 0.50
 
 class FaceVerification:
 
-    def __init__(self):
+    def __init__(self, epsilon = 50):
         print("Building Caffe Face Detector..")
         self.face_detector = cv2.dnn.readNetFromCaffe("C:/Users/Zeynep/Desktop/SVMfaceR/deploy.prototxt.txt", "C:/Users/Zeynep/Desktop/SVMfaceR/res10_300x300_ssd_iter_140000.caffemodel")
 
         print("Building Verifier..")
         self.verifier = load_model("busonmodel.h5")
+        
+        self.epsilon = epsilon
 
     def preprocess_image(self, image_path):
         img = load_img(image_path, target_size=(224, 224))
@@ -72,7 +73,7 @@ class FaceVerification:
         print("Cosine similarity: ",cosine_similarity)
         print("Euclidean distance: ",euclidean_distance)
         
-        if(cosine_similarity < epsilon):
+        if(cosine_similarity < self.epsilon):
             #print("verified... they are same person")
             return 1
         else:
