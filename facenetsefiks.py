@@ -91,7 +91,6 @@ def findEuclideanDistance(source_representation, test_representation):
 vgg_face_descriptor = Model(inputs=model.layers[0].input, outputs=model.layers[-2].output)
 
 epsilon = 0.50
-
 def get_face_ssdnet(frame):
     (h, w) = frame.shape[:2]
     resized_image = cv2.resize(frame, (300, 300))
